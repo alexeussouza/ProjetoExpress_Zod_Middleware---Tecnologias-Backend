@@ -93,3 +93,42 @@ json
 npm run seed
 ---
 Certifique-se de que o arquivo seed.ts esteja devidamente configurado.
+
+instalar o bcryptjs e jsonwebtoken
+---
+npm install bcrypt jsonwebtoken
+
+
+instalar os tipos para as bibliotecas
+---
+npm install @types/bcryptjs  @types/jsonwebtoken
+
+
+criar o modelo para usuario no modelo prisma
+---
+```
+model User {
+  id          Int      @id @default(autoincrement())
+  email       String   @unique
+  password    String   // sera armazenado com hash, nunca texto puro
+  name        String?  // campo opcional
+  createdAt   DateTime @default(now()) 
+  updatedAt   DateTime @updatedAt 
+
+  @@map("users") // Nome da tabela no banco de dados sera "users"
+}
+```
+
+Apos criar o modelo deve rodar o comando para rodar a migration
+---
+npx prisma migrate dev --name create-users
+
+Rodar o npm studio para visualizar a tabela. 
+---
+
+Crie o arquivo .env na raiz do projeto e Instale o pacote dotenv
+---
+import dotenv from 'dotenv';
+dotenv.config();
+
+8º const secret = process.env.JWT_SECRET
